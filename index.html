@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-    <meta chaset="UTF-8">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Birthday Countdown</title>
     <link rel="stylesheet" href="styles.css">
+</head>
 <body>
+
     <div class="container">
         <h1>Birthday Countdown</h1>
-        <p>Time until August 17th</p>
+        <p id="target-date-text">Time until your selected date!</p>
+        
+        <div class="date-selector">
+            <input type="date" id="birthday-input">
+            <button id="set-date-btn">Set Birthday</button>
+        </div>
+
         <div id="countdown" class="countdown">
             <div class="time-box">
                 <span id="days">0</span>
@@ -18,9 +27,89 @@
                 <div class="label">Hours</div>
             </div>
             <div class="time-box">
-                
+                <span id="minutes">0</span>
+                <div class="label">Minutes</div>
+            </div>
+            <div class="time-box">
+                <span id="seconds">0</span>
+                <div class="label">Seconds</div>
             </div>
         </div>
+        <div id="birthday-message" class="birthday-message">
+            <h2>Its my birthday/ selected birthday!</h2>
+        </div>
     </div>
+
+    <script>
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const countdownEl = document.getElementById('countdown');
+        const messageEl = document.getElementById('birthday-message');
+        const birthdayInput = document.getElementById('birthday-input');
+        const setDateBtn = document.getElementById('set-date-btn');
+        const targetDateText = document.getElementById('target-date-text');
+
+        let countdownInterval;
+
+        function startCountdown(dateString) {
+            clearInterval(countdownInterval);
+            
+            countdownEl.style.display = 'flex';
+            messageEl.style.display = 'none';
+
+            const countDownDate = new Date(dateString).getTime();
+
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const friendlyDate = new Date(dateString).toLocaleDateString(undefined, options);
+            targetDateText.textContent = `Time until ${friendlyDate}!`;
+
+            countdownInterval = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
+
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    countdownEl.style.display = 'none';
+                    messageEl.style.display = 'block';
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                daysEl.innerText = days;
+                hoursEl.innerText = hours;
+                minutesEl.innerText = minutes;
+                secondsEl.innerText = seconds;
+            }, 1000);
+        }
+
+        setDateBtn.addEventListener('click', () => {
+            const selectedDate = birthdayInput.value;
+            if (selectedDate) {
+                const fullDateString = `${selectedDate}T00:00:00`;
+                localStorage.setItem('birthday', fullDateString);
+                startCountdown(fullDateString);
+            }
+        });
+
+        function initialise() {
+            const savedDate = localStorage.getItem('birthday');
+            const defaultDate = "2025-08-17T00:00:00"; 
+            
+            if (savedDate) {
+                birthdayInput.value = savedDate.split('T')[0];
+                startCountdown(savedDate);
+            } else {
+                birthdayInput.value = defaultDate.split('T')[0];
+                startCountdown(defaultDate);
+            }
+        }
+        initialise();
+    </script>
 </body>
 </html>

@@ -1,3 +1,88 @@
 body {
     font-family: 'Inter', sans-serif;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+.container {
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+}
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.time-box {
+    background-color: #f0f2f5; 
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.time-box span {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #764ba2;
+}
+.time-box label {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 5px;
+}
+.birthday-message {
+    display: none;
+}
+.birthday-message h2 {
+    font-size: 3rem;
+    color: #764ba2;
+    animation: fadeIn 1s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .time-box {
+        padding: 15px;
+        min-width: 80px;
+    }
+
+    .time-box span {
+        font-size: 2rem;
+    }
 }
